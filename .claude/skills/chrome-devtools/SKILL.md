@@ -16,30 +16,170 @@ Control Chrome browser via MCP tools prefixed with `mcp__chrome-devtools__`.
 
 ## 1. Chrome Setup (Required)
 
-Chrome 136+ blocks remote debugging on default profiles for security.
-This system uses a custom profile at `~/.chrome-profile` for both daily use and debugging.
+Chrome 136+ blocks `--remote-debugging-port` on default profiles for
+security.
+This system uses a dedicated profile at `~/.chrome-profile` to
+isolate debugging from your main Chrome profile.
 
-### Daily Browsing
+### First-Time Setup
 
-Launch via `/Applications/My Chrome.app` (or add to Dock).
-This uses the custom profile, so all your logins and extensions are preserved.
+If this is your first time, follow Steps 1-5 below.
+Returning users can skip to the **Quick Reference** subsection.
 
-### MCP Debugging
+#### Step 1: Create custom Chrome profile directory
 
 ```bash
-chrome-debug                    # Start Chrome with debugging on port 9222
-chrome-debug https://amazon.com # Open specific URL with debugging enabled
+mkdir -p ~/.chrome-profile
 ```
 
-The command launches Chrome with `--remote-debugging-port=9222` using the custom profile.
+A dedicated profile keeps debugging sessions separate from your
+main Chrome profile.
+Your logins, extensions, and bookmarks will live here instead.
 
-### Verify Connection
+#### Step 2: Create `chrome-debug` launcher script
 
 ```bash
+mkdir -p ~/.local/bin
+cat > ~/.local/bin/chrome-debug << 'SCRIPT'
+#!/bin/bash
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
+  --user-data-dir=$HOME/.chrome-profile \
+  --remote-debugging-port=9222 \
+  "$@" > /dev/null 2>&1 &
+echo "Chrome started with remote debugging on port 9222"
+SCRIPT
+chmod +x ~/.local/bin/chrome-debug
+```
+
+Then ensure `~/.local/bin` is on your PATH:
+
+```bash
+# Add to ~/.zshrc if not already present
+grep -q 'local/bin' ~/.zshrc || \
+  echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+#### Step 3: Configure the MCP server
+
+Add to `~/Documents/.mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest",
+        "--browser-url=http://127.0.0.1:9222"
+      ]
+    }
+  }
+}
+```
+
+Enable in `~/Documents/.claude/settings.local.json`:
+
+```json
+{
+  "enabledMcpjsonServers": ["chrome-devtools"]
+}
+```
+
+Then restart Claude Code to load the MCP server.
+
+#### Step 4: Create `My Chrome.app` for daily browsing
+
+A standalone macOS app that launches Chrome with the custom profile.
+This replaces the default Chrome for daily use so your logins,
+extensions, and bookmarks all live in `~/.chrome-profile`.
+
+**Create the app with Script Editor:**
+
+1. Open **Script Editor** (`/Applications/Utilities/Script Editor`)
+2. Paste the AppleScript source below
+3. **File > Export** — set File Format to **Application**
+4. Save to `/Applications/My Chrome.app`
+5. (Optional) Set a Chrome icon: Get Info on Google Chrome.app,
+   copy icon, Get Info on My Chrome.app, paste icon
+6. (Optional) Set as default browser: My Chrome.app > open once >
+   System Settings > Default Browser
+
+**AppleScript source:**
+
+```applescript
+on run
+    set profilePath to (POSIX path of (path to home folder)) ¬
+        & ".chrome-profile"
+    do shell script ¬
+        "/Applications/Google\\ Chrome.app" ¬
+        & "/Contents/MacOS/Google\\ Chrome" ¬
+        & " --user-data-dir=" & quoted form of profilePath ¬
+        & " > /dev/null 2>&1 &"
+end run
+
+on open location theURL
+    set profilePath to (POSIX path of (path to home folder)) ¬
+        & ".chrome-profile"
+    do shell script ¬
+        "/Applications/Google\\ Chrome.app" ¬
+        & "/Contents/MacOS/Google\\ Chrome" ¬
+        & " --user-data-dir=" & quoted form of profilePath ¬
+        & " " & quoted form of theURL ¬
+        & " > /dev/null 2>&1 &"
+end open location
+
+on open theFiles
+    set profilePath to (POSIX path of (path to home folder)) ¬
+        & ".chrome-profile"
+    repeat with aFile in theFiles
+        set filePath to POSIX path of aFile
+        do shell script ¬
+            "/Applications/Google\\ Chrome.app" ¬
+            & "/Contents/MacOS/Google\\ Chrome" ¬
+            & " --user-data-dir=" & quoted form of profilePath ¬
+            & " " & quoted form of filePath ¬
+            & " > /dev/null 2>&1 &"
+    end repeat
+end open
+```
+
+To register as a browser for HTTP/HTTPS URLs, the exported app's
+`Info.plist` needs `CFBundleURLTypes`.
+Script Editor handles this automatically when the `on open location`
+handler is present and you export as Application.
+
+#### Step 5: Verify everything works
+
+```bash
+chrome-debug
 curl -s http://127.0.0.1:9222/json/version
 ```
 
 If successful, returns JSON with Chrome version info.
+You're ready to use the `mcp__chrome-devtools__*` tools.
+
+### Quick Reference
+
+For returning users who already completed setup.
+
+**Daily Browsing:**
+Launch via `/Applications/My Chrome.app` (or add to Dock).
+Uses the custom profile — all logins and extensions are preserved.
+
+**MCP Debugging:**
+
+```bash
+chrome-debug                    # Start with debugging on port 9222
+chrome-debug https://amazon.com # Open specific URL with debugging
+```
+
+**Verify Connection:**
+
+```bash
+curl -s http://127.0.0.1:9222/json/version
+```
 
 ## 2. Core Tools
 
