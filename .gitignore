@@ -1,0 +1,55 @@
+# === Default: ignore everything ===
+*
+
+# === Allow directory traversal ===
+!*/
+
+# === Root infrastructure ===
+!/.gitignore
+!/.mcp.json
+!/LICENSE
+
+# === Skeleton .gitkeep (top-level only) ===
+!/00_Vault/.gitkeep
+!/10_Projects/.gitkeep
+!/20_Areas/00_Meta_System/.gitkeep
+!/30_Resources/.gitkeep
+!/99_Archives/.gitkeep
+!/__To_Review/.gitkeep
+
+# === Framework docs: CLAUDE.md at domain level ===
+!/CLAUDE.md
+!/00_Vault/CLAUDE.md
+!/00_Vault/*/CLAUDE.md
+!/10_Projects/CLAUDE.md
+!/20_Areas/CLAUDE.md
+!/30_Resources/CLAUDE.md
+!/30_Resources/*/CLAUDE.md
+!/99_Archives/CLAUDE.md
+
+# === Root README.md (project readme, tracked) ===
+!/README.md
+
+# === README.example.md templates ===
+!/*/README.example.md
+!/20_Areas/00_Meta_System/Vault_Filing_Log.example.md
+
+# === Meta System framework docs ===
+!/20_Areas/00_Meta_System/SOP_*.md
+!/20_Areas/00_Meta_System/Reference_*.md
+!/20_Areas/00_Meta_System/Architecture_Overview.md
+
+# === Resources capture registry ===
+!/30_Resources/_capture_registry.md
+
+# === .claude folder: agents & skills (md only) ===
+!/.claude/agents/*.md
+!/.claude/skills/**/SKILL.md
+!/.claude/skills/**/references/*.md
+!/.claude/skills/pdf/forms.md
+!/.claude/skills/pdf/reference.md
+
+# === Personal data (never commit) ===
+20_Areas/00_Meta_System/Vault_Filing_Log.md
+20_Areas/GitHub/
+temo.md
