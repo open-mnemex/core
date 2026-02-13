@@ -92,7 +92,7 @@ both, giving you a system that's both shareable and personalized.
 
 1. Clone this repo into `~/Documents`:
    ```bash
-   git clone https://github.com/mnemex/core.git ~/Documents
+   git clone https://github.com/open-mnemex/core.git ~/Documents
    ```
 
 2. Copy each `README.example.md` to `README.md` in the same folder:
