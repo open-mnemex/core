@@ -23,6 +23,14 @@ pip install pandas
 
 ## Style Guide
 
+### 0. Language-Aware Naming
+
+- **Filename language must match the document's primary language.**
+  Date prefixes and type tags (e.g. `Contract`, `Receipt`) stay in
+  English; the descriptive portion follows the document's language.
+  Filing Log descriptions follow the same rule.
+- Example: `2026-02-06_Contract_Vendor_服务协议.pdf`
+
 ### 1. Line Length & Line Structure
 
 - **Soft limit:** Keep source lines **<= 98 characters**.
@@ -146,7 +154,27 @@ actively maintain.
 
 ---
 
-## 5. Security & Automation Protocol
+## 5. Environment Variables (环境变量)
+
+API keys are stored in `~/Documents/.env`.
+Before running skills that need API keys, source it:
+
+```bash
+set -a && source ~/Documents/.env && set +a
+```
+
+| Variable         | Used by              |
+|------------------|----------------------|
+| `GEMINI_API_KEY` | nano-banana-pro skill |
+
+---
+
+## 6. Security & Automation Protocol
+
+- **No PII in CLAUDE.md:** CLAUDE.md files are checked into version
+  control. Never include personal information (names, addresses,
+  ID numbers, phone numbers, account numbers) in any CLAUDE.md.
+  Use generic placeholders in examples instead.
 
 - **Backup Strategy:** Time Machine + iCloud (no Git tracking in
   Documents). See `20_Areas/00_Meta_System/SOP_03_Backup_Restore.md`.
@@ -168,14 +196,14 @@ actively maintain.
 
 ---
 
-## 6. Special Protocol: Legal Cases (04_Legal)
+## 7. Special Protocol: Legal Cases (04_Legal)
 
 **Full guide:** `00_Vault/04_Legal/CLAUDE.md`
 (path rules, matter types, entity naming, legal VNS categories).
 
 ---
 
-## 7. Special Protocol: Dual-File Archival (双文件归档法)
+## 8. Special Protocol: Dual-File Archival (双文件归档法)
 
 **Purpose:** For documents that are both "historical facts" (immutable)
 and need to be searchable/reusable (grep-friendly), use the dual-file
@@ -224,7 +252,7 @@ pandoc input.md -o output.pdf --pdf-engine=xelatex \
 
 ---
 
-## 8. Vault-to-Project Linkage (保险库项目联动)
+## 9. Vault-to-Project Linkage (保险库项目联动)
 
 **Purpose:** When a file is saved to Vault, automatically find and
 update related active projects via **dynamic search** (no static
@@ -271,7 +299,7 @@ grep -rl "IDENTIFIER" ~/Documents/10_Projects/ --include="*.md" \
 
 ---
 
-## 9. Vault Filing Log (归档记录)
+## 10. Vault Filing Log (归档记录)
 
 All vault filings are recorded in
 `20_Areas/00_Meta_System/Vault_Filing_Log.md`.
