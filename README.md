@@ -55,43 +55,21 @@ both, giving you a system that's both shareable and personalized.
 
 ## Plugins
 
-mnemex is a Claude Code marketplace with 3 installable plugins.
-Install only what you need.
+Skills and agents live in a separate repo:
+[**mnemex-plugins**](https://github.com/open-mnemex/mnemex-plugins)
 
-### `mnemex-core` — Digital Life System
+```bash
+# Add the marketplace
+/plugin marketplace add open-mnemex/mnemex-plugins
 
-Capture, inbox processing, and project lifecycle management.
+# Install what you need
+/plugin install mnemex-core@mnemex-plugins
+/plugin install macos-automation@mnemex-plugins
+/plugin install dev-tools@mnemex-plugins
+```
 
-| Skills | Agents |
-|--------|--------|
-| `/capture` | `pdf-analyzer` |
-| `/processing-inbox` | `pdf-renamer` |
-| `/project` | |
-
-### `macos-automation` — macOS App Automation
-
-Control native macOS apps via AppleScript.
-
-| Skills |
-|--------|
-| `/calendar-automation` |
-| `/mail-automation` |
-| `/reminders-automation` |
-| `/safari-automation` |
-| `/wechat-control` |
-
-### `dev-tools` — Developer Tools
-
-LaTeX, Chrome DevTools, PDF toolkit, image generation, and more.
-
-| Skills | Agents |
-|--------|--------|
-| `/latex` | `chinese-translator` |
-| `/chrome-devtools` | `code-improvement-reviewer` |
-| `/pdf` | |
-| `/skill-creator` | |
-| `/nano-banana-pro` | |
-| `/jsonl-to-markdown` | |
+See the [mnemex-plugins README](https://github.com/open-mnemex/mnemex-plugins)
+for the full plugin catalog.
 
 ## Getting Started
 
@@ -101,21 +79,7 @@ LaTeX, Chrome DevTools, PDF toolkit, image generation, and more.
   (Anthropic's CLI)
 - macOS (required for `macos-automation` plugin)
 
-### Install via Marketplace
-
-```bash
-# Add the mnemex marketplace
-/plugin marketplace add open-mnemex/mnemex
-
-# Install plugins you need
-/plugin install mnemex-core@mnemex
-/plugin install macos-automation@mnemex
-/plugin install dev-tools@mnemex
-```
-
-### Manual Setup (Full System)
-
-If you want the complete Digital Life System with Vault structure:
+### Setup
 
 1. Clone this repo into `~/Documents`:
    ```bash

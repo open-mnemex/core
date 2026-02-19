@@ -42,14 +42,6 @@
 # === Resources capture registry ===
 !/30_Resources/_capture_registry.md
 
-# === Marketplace ===
-!/.claude-plugin/marketplace.json
-!/plugins/*/.claude-plugin/plugin.json
-!/plugins/*/skills/**/SKILL.md
-!/plugins/*/skills/**/references/*.md
-!/plugins/*/skills/pdf/forms.md
-!/plugins/*/skills/pdf/reference.md
-!/plugins/*/agents/*.md
 
 # === Personal data (never commit) ===
 20_Areas/00_Meta_System/Vault_Filing_Log.md
