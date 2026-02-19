@@ -62,7 +62,11 @@ source ~/.zshrc
 
 #### Step 3: Configure the MCP server
 
-Add to `~/Documents/.mcp.json`:
+The `dev-tools` plugin declares the chrome-devtools MCP server in its
+`plugin.json`. If you installed this plugin via the marketplace, the
+MCP server is already configured — skip to Step 4.
+
+For manual setup, add to your project `.mcp.json`:
 
 ```json
 {
@@ -76,14 +80,6 @@ Add to `~/Documents/.mcp.json`:
       ]
     }
   }
-}
-```
-
-Enable in `~/Documents/.claude/settings.local.json`:
-
-```json
-{
-  "enabledMcpjsonServers": ["chrome-devtools"]
 }
 ```
 
@@ -223,7 +219,7 @@ MCP cannot control native macOS dialogs. Use AppleScript bridge.
 2. Run the save PDF script:
 
 ```bash
-osascript ~/Documents/.claude/skills/chrome-devtools/scripts/save_pdf.applescript
+osascript ${CLAUDE_PLUGIN_ROOT}/skills/chrome-devtools/scripts/save_pdf.applescript
 ```
 
 The script: Opens print dialog (Cmd+P) -> Triggers save sheet (Enter) -> Clicks Save.
@@ -263,7 +259,7 @@ curl -sL "https://example.com/image.jpg" -o ~/Downloads/image.jpg
 For images that can't be extracted via JS (CSS background images, etc.):
 
 ```bash
-osascript ~/Documents/.claude/skills/chrome-devtools/scripts/save_image.applescript
+osascript ${CLAUDE_PLUGIN_ROOT}/skills/chrome-devtools/scripts/save_image.applescript
 ```
 
 ### Batch Operations
