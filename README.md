@@ -53,31 +53,45 @@ This is the core design pattern of mnemex:
 active project lists, folder inventories. Claude Code auto-loads
 both, giving you a system that's both shareable and personalized.
 
-## Skills (Claude Code Commands)
+## Plugins
 
-| Command | Purpose |
-|---------|---------|
-| `/process-inbox` | Route files from `~/Downloads` into the system |
-| `/capture` | Quick-capture content (quotes, books, letters, tools) |
-| `/project init` | Create a new project with standard skeleton |
-| `/project archive` | Archive a completed project (3R Protocol) |
-| `/project reorg` | Reorganize project structure |
-| `/project link` | Link vault files to active projects |
-| `/pdf` | PDF toolkit (extract, create, merge, fill forms) |
-| `/mail-automation` | Read, send, search Apple Mail |
-| `/calendar-automation` | Manage Apple Calendar events |
-| `/reminders-automation` | Manage Apple Reminders tasks |
-| `/safari-automation` | Automate Safari browser |
-| `/chrome-devtools` | Control Chrome via DevTools |
+mnemex is a Claude Code marketplace with 3 installable plugins.
+Install only what you need.
 
-## Agents
+### `mnemex-core` — Digital Life System
 
-| Agent | Purpose |
-|-------|---------|
-| `pdf-analyzer` | Analyze PDF content for filing decisions |
-| `pdf-renamer` | Rename PDFs following VNS naming convention |
-| `chinese-translator` | Translate and verify Chinese text |
-| `code-improvement-reviewer` | Review code for improvements |
+Capture, inbox processing, and project lifecycle management.
+
+| Skills | Agents |
+|--------|--------|
+| `/capture` | `pdf-analyzer` |
+| `/processing-inbox` | `pdf-renamer` |
+| `/project` | |
+
+### `macos-automation` — macOS App Automation
+
+Control native macOS apps via AppleScript.
+
+| Skills |
+|--------|
+| `/calendar-automation` |
+| `/mail-automation` |
+| `/reminders-automation` |
+| `/safari-automation` |
+| `/wechat-control` |
+
+### `dev-tools` — Developer Tools
+
+LaTeX, Chrome DevTools, PDF toolkit, image generation, and more.
+
+| Skills | Agents |
+|--------|--------|
+| `/latex` | `chinese-translator` |
+| `/chrome-devtools` | `code-improvement-reviewer` |
+| `/pdf` | |
+| `/skill-creator` | |
+| `/nano-banana-pro` | |
+| `/jsonl-to-markdown` | |
 
 ## Getting Started
 
@@ -85,10 +99,23 @@ both, giving you a system that's both shareable and personalized.
 
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
   (Anthropic's CLI)
-- macOS (required for automation skills:
-  Mail, Calendar, Reminders, Safari)
+- macOS (required for `macos-automation` plugin)
 
-### Setup
+### Install via Marketplace
+
+```bash
+# Add the mnemex marketplace
+/plugin marketplace add open-mnemex/mnemex
+
+# Install plugins you need
+/plugin install mnemex-core@mnemex
+/plugin install macos-automation@mnemex
+/plugin install dev-tools@mnemex
+```
+
+### Manual Setup (Full System)
+
+If you want the complete Digital Life System with Vault structure:
 
 1. Clone this repo into `~/Documents`:
    ```bash
@@ -108,9 +135,9 @@ both, giving you a system that's both shareable and personalized.
 
 4. Start using skills:
    ```
-   /process-inbox     # File documents from Downloads
-   /capture quote     # Save a quote to Resources
-   /project init      # Start a new project
+   /processing-inbox   # File documents from Downloads
+   /capture quote      # Save a quote to Resources
+   /project init       # Start a new project
    ```
 
 ## Customization
